@@ -26,7 +26,7 @@ def CP2(level)
   level + 1
   if level > 0 && level <= 5
     CPneeded + 4
-  elseif level > 5 && level <= 20
+  elsif level > 5 && level <= 20
     CPneeded + 8
   else
     CPneeded + 0
