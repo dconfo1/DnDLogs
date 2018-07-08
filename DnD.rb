@@ -42,6 +42,7 @@ name = gets
 
 puts "Enter your character's level (1-20): "
 level = gets
+level.to_i
 
 puts "Enter your character's race: "
 race = gets
@@ -54,27 +55,34 @@ quest = gets
 
 puts "Enter the amount of CP your character currently has: "
 CPnow = gets
+CPnow.to_f
 
 puts "Enter the name of your current magical item: "
 TPitem = gets
 
 puts "Enter the current amount of TP in your magical item: "
 TPnow = gets
+TPnow.to_f
 
 puts "Enter the total amount of TP needed for your magical item: "
 TPneeded = gets
+TPneeded.to_i
 
 puts "Enter your character's current GP total: "
 GPnow = gets
+GPnow.to_f
 
 puts "Enter the amount of CP gained from the quest: "
 CPgained = gets
+CPgained.to_f
 
 puts "Enter the amount of TP gained from the quest: "
 TPgained = gets
+TPgained.to_f
 
 puts "Enter the amount of GP gained from the quest: "
 GPgained = gets
+GPgained.to_f
 
 =begin
   Right at this point the program seems to shut down in command prompt.
@@ -111,6 +119,7 @@ if TPtotal > TPneeded
   TPitem2 = gets
   puts "Enter the total amount of TP needed for this magical item: "
   TPneeded2 = gets
+  TPneeded2.to_i
 else
   TPitem2 = "N/A"
   TPneeded2 = 0
@@ -127,6 +136,7 @@ if buying == "y"
   itemsBought = gets
   puts "What is the total cost of these items? "
   itemsBPrice = gets
+  itemsBPrice.to_f
   GPtotal = GPtotal - itemsBPrice
 else
   itemsBought ="N/A"
@@ -140,6 +150,7 @@ if selling == "y"
   itemsSold = gets
   puts "What is the total cost of these items? "
   itemsSPrice = gets
+  itemsSPrice.to_f
   GPtotal = GPtotal + itemsSPrice
 else
   itemsSold = "N/A"
