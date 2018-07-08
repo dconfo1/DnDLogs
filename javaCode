@@ -1,0 +1,243 @@
+package dnd;
+
+/*
+ * This program is a the starting version of creating a program so that players
+ * can enter all of their information for their characters and have logs and
+ * other things created automatically.
+ * 
+ * @author vict0rem
+ */
+
+import java.util.Scanner;
+
+public class DnD {
+	
+	public static int CPNeeded;
+    
+    public static int CP(int level){
+    
+        int a = level;
+        
+        if(a > 0 && a <= 5){
+            CPNeeded = 4;
+        }
+        else if (a > 5 && a <= 20){
+            CPNeeded = 8;
+                
+        }
+        else{
+            CPNeeded = 0;
+        }
+		return CPNeeded;
+
+    }
+    
+    public static int CP2(int level){
+        
+        int a = level ++;
+        
+        if(a > 0 && a <= 5){
+            CPNeeded = 4;
+        }
+        else if (a > 5 && a <= 20){
+            CPNeeded = 8;
+                
+        }
+        else{
+            CPNeeded = 0;
+        }
+        return CPNeeded;
+    
+    }
+
+	static int characterLevel;
+
+    public static void main(String[] args) {
+        
+        Scanner input = new Scanner(System.in);
+        
+        System.out.print("Enter your character's name: ");
+            String characterName = input.nextLine();
+            
+        System.out.print("Enter your character's level (1-20): ");
+            characterLevel = input.nextInt();
+            input.nextLine();
+            
+        System.out.print("Enter your character's race: ");
+            String characterRace = input.nextLine();
+            
+        System.out.print("Enter your character's class(es): ");
+            String characterClasses = input.nextLine();
+            
+        System.out.print("Enter the quest name: ");
+            String quest = input.nextLine();
+            
+        System.out.print("Enter the amount of CP your character currently has: ");
+            double CPnow = input.nextDouble();
+            input.nextLine();
+            
+        System.out.print("Enter the name of your current magical item: ");
+            String TPitem = input.nextLine();
+            
+        System.out.print("Enter the current amount of TP in your magical item: ");
+            double TPnow = input.nextDouble();
+        
+        System.out.print("Enter the total amount of TP needed for your magical item: ");
+            int TPneeded = input.nextInt();
+            
+        System.out.print("Enter your character's current GP total: ");
+            double GPnow = input.nextDouble();
+            
+        System.out.print("Enter the amount of CP gained from the quest: ");
+            double CPgained = input.nextDouble();
+            
+        System.out.print("Enter the amount of TP gained from the quest: ");
+            double TPgained = input.nextDouble();
+            
+        System.out.print("Enter the amount of GP gained from the quest: ");
+            double GPgained = input.nextDouble();
+            input.nextLine();
+            
+        double CPTotal = CPnow + CPgained;
+        double TPTotal = TPnow + TPgained;
+        double GPTotal = GPnow + GPgained;
+            
+        //This "if" statement calls upon CPCalc and CPCalc2 to figure out how much CP is needed.
+        int CPNeeded;
+        String TPitem2;
+        int TPneeded2;
+            if (CPTotal > CP(characterLevel)){
+                characterLevel ++;
+                CPNeeded = CP2(characterLevel);
+            }
+            else{
+                CPNeeded = CP(characterLevel);
+            }
+            
+            if (TPTotal > TPneeded){
+                TPnow = ((TPTotal) - TPneeded);
+                System.out.print("Enter the name of your next magical item: ");
+                TPitem2 = input.nextLine();
+                
+                System.out.print("Enter the total amount of TP needed for this magical item: ");
+                TPneeded2 = input.nextInt();
+                
+            }
+            else {
+                TPitem2 = "N/A";
+                TPneeded2 = 0;
+                System.out.println();
+            }
+           
+        System.out.print("Are you buying any items (Y or N)? ");
+        String itemsBought;
+        Double itemsPrice;
+            String buying = input.next();
+            input.nextLine();
+            if("Y".equalsIgnoreCase(buying)){
+                System.out.print("What item(s) are you buying? ");
+                    itemsBought = input.nextLine();
+                System.out.print("What is the total cost of these items? ");
+                    itemsPrice = input.nextDouble();
+                    GPTotal = GPTotal - itemsPrice;
+            }
+            else{
+                itemsBought = "N/A";
+                double nothingBought = 0;
+                itemsPrice = nothingBought;
+            }
+            
+        System.out.print("Are you selling any items (Y or N)? ");
+        String itemsSold;
+        Double itemsPrice2;
+            String selling = input.next();
+            input.nextLine();
+            if("Y".equalsIgnoreCase(selling)){
+                System.out.print("What item(s) are you selling? ");
+                    itemsSold = input.nextLine();
+                System.out.print("What is the total selling price of these items? ");
+                    itemsPrice2 = input.nextDouble();
+                    GPTotal = GPTotal + itemsPrice2;
+            }
+            else{
+                itemsSold = "N/A";
+                double nothingBought = 0;
+                itemsPrice2 = nothingBought;
+            }
+        
+        System.out.println();
+        System.out.println();
+            
+        //Everything past this point are the outputs for the purpose of logs.
+        System.out.println("Character Information (announced in #character-logs)");
+        System.out.print("Creation:         ");
+        System.out.println("Creating " +characterName +", Level " 
+                +characterLevel +" " +characterRace +" " +characterClasses);
+        
+        System.out.print("Death:            ");
+        System.out.println("**DEATH**: " +characterName +" has fallen in battle "
+                + "during **" +quest +"**.");
+        
+        System.out.print("Near-Death Experience:            ");
+        System.out.println(characterName +" dodged death and receives no rewards "
+                +"from **" +quest +"**.");
+        
+        System.out.println();
+        
+        System.out.println("Leveling (announced in #character-logs)");
+        System.out.print("Gaining CP/Leveling Up:           "); 
+       if (CPTotal > CPNeeded){
+            System.out.print(characterName +" gains " +CPgained +" CP from **"
+            +quest +"** and levels up to level " +characterLevel
+                    + " (" +(CPTotal - CPNeeded) +"/" +CP2(characterLevel) 
+                    +" to level " +(characterLevel +1) +").");
+        
+        }
+        else 
+            System.out.print(characterName +" gains " +CPgained +" CP from **"
+                    +quest + "** (" +CPTotal +"/" +CP(characterLevel) +" to level "
+            +(characterLevel +1) +").");
+        
+        System.out.println();
+        System.out.println();
+        
+        System.out.println("Currency & Items (announced in #purchase-logs)");
+        System.out.print("Gaining TP and GP:            ");
+        if (TPTotal < TPneeded){
+            System.out.print(characterName +" gains " +TPgained +" TP and " +GPgained 
+            +" GP from **" +quest +"** and puts the TP towards **" +TPitem +"** (" 
+            +TPnow +"/" +TPneeded +" TP) and now has " +GPTotal +"GP.");
+        }
+        else {
+            System.out.print(characterName +" gains " +TPgained +" TP and " +GPgained
+            +" GP from **" +quest +"** and puts the TP towards **" +TPitem 
+            +"** completing it and puts the rest of their TP into **" +TPitem2 
+            +"** (" +TPnow +"/" +TPneeded2 +") and has a total of " +GPTotal +" GP.");
+                    
+        }
+        System.out.println();
+        System.out.print("Selling items:            ");
+        System.out.print(characterName +" sells " +itemsSold +" for " 
+        +itemsPrice2 +" GP. " +characterName +" now has " +(GPTotal+itemsPrice2) +" GP.");
+        
+        System.out.println();
+        System.out.print("Buying items:         ");
+        System.out.print(characterName +" buys " +itemsBought +" for " 
+        +itemsPrice +" GP. " +characterName +" now has " +(GPTotal-itemsPrice) +" GP.");
+        
+        System.out.println();
+        System.out.print("Buying and Selling Items:         ");
+        System.out.print(characterName +" buys " +itemsBought +" for " +itemsPrice
+        +" GP and sells " +itemsSold +" for " +itemsPrice2 +" GP." +characterName 
+        +" now has " +(GPTotal+itemsPrice2-itemsPrice));
+        
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println("Thanks for using my program! Have a great time, "
+                +characterName +"! - vict0rem");
+        
+        input.nextLine();
+    }
+	
+}
