@@ -1,157 +1,163 @@
-=begin
-  This program is made so that a user can input all of their character
-  information and their logs shall be automatically made for them.
-
-  @author vict0rem
-=end
+#This program is made so that a user can input all of their character
+#information and their logs shall be automatically made for them.
+#
+#author vict0rem
 
 
+#Gets numeric input, loops until user inputs only an integer value
+def getIntegerInput()
+  val = gets.chomp
+  while !/((\d)+)/.match(val) || /((\d)+\.(\d)+)/.match(val)
+    puts 'This input should be an integer. Please input again.'
+    val = gets.chomp
+  end
+  return val
+end
 
-=begin
-  These defs are made to determine the amount of CP a character needs to level
-  up and if they did level up how much CP they will need for their next level.
-=end
-CPneeded = 0
+#Gets numeric input, loops until user inputs a float or integer value
+def getFloatInput()
+  val = gets.chomp
+  while not /((\d)+)/.match(val) || /((\d)+\.(\d)+)/.match(val)
+    puts 'This input should be a decimal (I.E. 1.1 or 1.2) or integer
+    (I.E. 1 or 2). Please input again.'
+    val = gets.chomp
+  end
+  return val
+end
+
+#These defs are made to determine the amount of CP a character needs to level
+#up and if they did level up how much CP they will need for their next level.
 def CP(level)
+  cpNeeded = 0
   if level > 0 && level <= 5
-    CPneeded + 4
+    cpNeeded + 4
   elsif level > 5 && level <= 20
-    CPneeded + 8
+    cpNeeded + 8
   else
-    CPneeded + 0
+    cpNeeded + 0
   end
 end
 
 def CP2(level)
+  cpNeeded = 0
   level + 1
   if level > 0 && level <= 5
-    CPneeded + 4
+    cpNeeded + 4
   elsif level > 5 && level <= 20
-    CPneeded + 8
+    cpNeeded + 8
   else
-    CPneeded + 0
+    cpNeeded + 0
   end
 end
 
-=begin
-  This is all the information the program needs from the user in order to
-  create their logs and do all of the necessary calculations.
-=end
+#This is all the information the program needs from the user in order to
+#create their logs and do all of the necessary calculations.
 puts "Enter your character's name: "
-name = gets
+name = gets.chomp
 
 puts "Enter your character's level (1-20): "
-level = gets
-level.to_i
+level = getIntegerInput
+level = level.to_i
 
 puts "Enter your character's race: "
-race = gets
+race = gets.chomp
 
 puts "Enter your character's class(es): "
-classes = gets
+classes = gets.chomp
 
 puts "Enter the quest name: "
-quest = gets
+quest = gets.chomp
 
 puts "Enter the amount of CP your character currently has: "
-CPnow = gets
-CPnow.to_f
+cpNow = getFloatInput
+cpNow = cpNow.to_f
 
 puts "Enter the name of your current magical item: "
-TPitem = gets
+tpItem = gets.chomp
 
 puts "Enter the current amount of TP in your magical item: "
-TPnow = gets
-TPnow.to_f
+tpNow = getFloatInput
+tpNow = tpNow.to_f
 
 puts "Enter the total amount of TP needed for your magical item: "
-TPneeded = gets
-TPneeded.to_i
+tpNeeded = getIntegerInput
+tpNeeded = tpNeeded.to_i
 
 puts "Enter your character's current GP total: "
-GPnow = gets
-GPnow.to_f
+gpNow = getFloatInput
+gpNow = gpNow.to_f
 
 puts "Enter the amount of CP gained from the quest: "
-CPgained = gets
-CPgained.to_f
+cpGained = getFloatInput
+cpGained = cpGained.to_f
 
 puts "Enter the amount of TP gained from the quest: "
-TPgained = gets
-TPgained.to_f
+tpGained = getFloatInput
+tpGained = tpGained.to_f
 
 puts "Enter the amount of GP gained from the quest: "
-GPgained = gets
-GPgained.to_f
+gpGained = getFloatInput
+gpGained = gpGained.to_f
 
-=begin
-  Right at this point the program seems to shut down in command prompt.
-=end
+cpTotal = cpNow + cpGained
+tpTotal = tpNow + tpGained
+gpTotal = gpNow + gpGained
 
-CPtotal = CPnow + CPgained
-TPtotal = TPnow + TPgained
-GPtotal = GPnow + GPgained
+cpNeeded2 = 0
+tpItem2 = 0
+tpNeeded2 = 0
 
-CPneeded2
-TPitem2
-TPneeded2
-
-=begin
-  This if-else statement figures out if the user's character did level up and
-  depending on if that is true or false it uses either the def CP or CP2.
-=end
-if CPtotal > CP(level)
+#This if-else statement figures out if the user's character did level up and
+#depending on if that is true or false it uses either the def CP or CP2.
+if cpTotal > CP(level)
   level + 1
-  CPneeded = CP2(level)
+  cpNeeded = CP2(level)
 else
-  CPneeded = CP(level)
+  cpNeeded = CP(level)
 end
 
-=begin
-  This if-else statement checks to see if the user's character receives their
-  current magical item. If they do then they must choose their next magical
-  item and enter how much TP it neeeds and if they don't then there is no next
-  magical item for them to input.
-=end
-if TPtotal > TPneeded
-  TPnow = TPtotal - TPneeded
+#This if-else statement checks to see if the user's character receives their
+#current magical item. If they do then they must choose their next magical
+#item and enter how much TP it neeeds and if they don't then there is no next
+#magical item for them to input.
+if tpTotal > tpNeeded
+  tpNow = tpTotal - tpNeeded
   puts "Enter the name of your next magical item: "
-  TPitem2 = gets
+  tpItem2 = gets.chomp
   puts "Enter the total amount of TP needed for this magical item: "
-  TPneeded2 = gets
-  TPneeded2.to_i
+  tpNeeded2 = getIntegerInput
+  tpNeeded2 = tpNeeded2.to_i
 else
-  TPitem2 = "N/A"
-  TPneeded2 = 0
+  puts "152"
+  tpItem2 = "N/A"
+  tpNeeded2 = 0
 end
 
-=begin
-  This section is to check if the user's character would like to buy or sell
-  anything and gets the user to input the prices for the various items.
-=end
+#This section is to check if the user's character would like to buy or sell
+#anything and gets the user to input the prices for the various items.
 puts "Are you buying any items (Y or N)? "
-buying = gets
-if buying == "y"
+buying = gets.chomp
+if buying.downcase == "y"
   puts "What item(s) are you buying? "
-  itemsBought = gets
+  itemsBought = gets.chomp
   puts "What is the total cost of these items? "
-  itemsBPrice = gets
-  itemsBPrice.to_f
-  GPtotal = GPtotal - itemsBPrice
+  itemsBPrice = getFloatInput
+  itemsBPrice = itemsBPrice.to_f
+  gpTotal = gpTotal - itemsBPrice
 else
   itemsBought ="N/A"
   itemsBPrice = 0
 end
 
 puts "Are you selling any items (Y or N)? "
-selling = gets
-if selling == "y"
+selling = gets.chomp
+if selling.downcase == "y"
   puts "What item(s) are you selling? "
-  itemsSold = gets
+  itemsSold = gets.chomp
   puts "What is the total cost of these items? "
-  itemsSPrice = gets
-  itemsSPrice.to_f
-  GPtotal = GPtotal + itemsSPrice
+  itemsSPrice = getFloatInput
+  itemsSPrice = itemsSPrice.to_f
+  gpTotal = gpTotal + itemsSPrice
 else
   itemsSold = "N/A"
   itemsSPrice = 0
@@ -160,67 +166,81 @@ end
 puts ""
 puts ""
 
-=begin
-  Everything after this point contains automatically created logs and
-  information based off the user's previously made inputs. There are no more
-  inputs past here.
-=end
+#These calcualtions are made before producing the strings
+levelAddOne = level + 1
+levelAddTwo = level + 2
+cp2 = CP2(level)
+cpTotal2 = cpTotal - cpNeeded
+cp = CP(level)
+
+gpTotalBuy = gpTotal - itemsBPrice
+gpTotalSell = gpTotal + itemsSPrice
+gpTotalBoth = gpTotal + itemsSPrice - itemsBPrice
+
+#The strings here are made and then put into an array so that the puts
+#statements can call upon the array.
+creation = "Creating #{name}, Level #{level} #{race} #{classes}"
+death = "**DEATH:** #{name} has fallen in battle during **#{quest}**."
+nearDeath = "#{name} dodged death and receives no rewards from **#{quest}**."
+info = [creation, death, nearDeath]
+
+levelUp = "#{name} gains #{cpGained} CP from **#{quest}** and levels up to level #{levelAddOne} (#{cpTotal2}/#{cp2} CP to level #{levelAddTwo}).\n"
+noLevelUp = "#{name} gains #{cpGained} CP from **#{quest}** (#{cpTotal}/#{cp} to level #{levelAddOne})."
+cpLogs = [levelUp, noLevelUp]
+
+tpItemGet = "#{name} gains #{tpGained} TP and #{gpGained} GP from **#{quest}** and puts the TP towards **#{tpItem}** completing it and puts the rest of their TP into **#{tpItem2}** (#{tpNow}/#{tpNeeded2}) and has a total of #{gpTotal} GP."
+tpItemNotGet = "#{name} gains #{tpGained} TP and #{gpGained} GP from **#{quest}** and puts the TP towards **#{tpItem}** (#{tpNow}/#{tpNeeded}) and has a total of #{gpTotal} GP."
+tpLogs = [tpItemGet, tpItemNotGet]
+
+buyingStuff = "#{name} buys #{itemsBought} for #{itemsBPrice} GP. #{name} now has #{gpTotalBuy} GP."
+sellingStuff = "#{name} sells #{itemsSold} for #{itemsSPrice} GP. #{name} now has #{gpTotalSell} GP."
+bothStuff = "#{name} buys #{itemsBought} for #{itemsBPrice} GP and sells #{itemsSold} for #{itemsSPrice} GP. #{name} now has #{gpTotalBoth} GP."
+purchaseLogs = [buyingStuff, sellingStuff, bothStuff]
+
+#Everything after this point calls upon the previously made strings in the
+#previously made arrays to print out all of the information a user could need.
 puts "Character Information (announced in #character-logs)"
 print "Creation:     "
-puts "Creating" + name + ", Level" + level + " " + race + " " + classes
+puts info[0]
 print "Death:      "
-puts "**DEATH:** " + name + " has fallen in battle during **" + quest + "**."
+puts info[1]
 print "Near-Death Experience:      "
-puts name + " dodged death and receives no rewards from **" + quest + "**."
+puts info[2]
 
 puts ()
 
 puts "Leveling (announced in #character-logs)"
-print "Gaining CP/Leveling U:      "
-if CPtotal > CPneeded
-  puts name + " gains " + CPgained + " CP from **" + quest + "** and levels up
-  to level " + level + " (" + (CPtotal - CPneeded) + "/" + CP2(level) + " to
-  level " + (level + 1) + ")."
+print "Gaining CP/Leveling Up:      "
+if cpTotal > cpNeeded
+  cpTotal = cpTotal - cpNeeded
+  puts cpLogs[0]
 else
-  puts name + " gains " + CPgained + " CP from **" + quest + "** (" + CPtotal
-  + "/" + CP(level) + " to level " + (level + 1) + ")."
+  puts cpLogs[1]
 end
 
-puts ()
 puts ()
 
 puts "Currency & Items (announced in #purchase-logs)"
 print "Gaining TP and GP:     "
-if TPtotal > TPneeded
-  puts name + " gains " + TPgained + " TP and " + GPgained + " GP from **"
-  + quest + "** and puts the TP towards **" + TPitem + "** completing it
-  and puts the rest of their TP into **" + TPitem2 + "** (" + TPnow + "/"
-    + TPneeded2 + ") and has a total of " + GPtotal + " GP."
+if tpTotal > tpNeeded
+  puts tpLogs[0]
   else
-    puts name + " gains " + TPgained + " TP and " + GPgained + " GP from **"
-    + quest + "** and puts the TP towards **" + TPitem + "** (" + TPnow
-    + TPneeded + ") and has a total of " + GPtotal + " GP."
+    puts tpLogs[1]
 end
 
   print "Buying Items:      "
-  puts name + " buys " + itemsBought + " for " + itemsBPrice + " GP. " + name
-  + " now has " + (GPtotal - itemsBPrice) + " GP."
+  puts purchaseLogs[0]
   print "Selling Items:     "
-  puts name + " sells " + itemsSold + " for " + itemsSPrice + " GP. " + name
-  + " now has " + (GPtotal + itemsSPrice) + " GP."
+  puts purchaseLogs[1]
   print "Buying and Selling Items:      "
-  puts name + " buys " + itemsBought + " for " + itemsBPrice + " GP and sells "
-  + itemsSold + " for " + itemsSPrice + " GP. " + name + " now has "
-  + (GPtotal + itemsSPrice - itemsBPrice) + " GP."
+  puts purchaseLogs[2]
 
   puts ()
-  puts()
-  puts()
-  puts()
-  puts "Thanks for using my program! Have a great time, " + name + "! - vict0rem"
+  puts ()
+  puts ()
+  puts ()
+  puts "Thanks for using my program! Have a great time, #{name}! - vict0rem"
 
-=begin
-  This "ending = gets" is so that the program doesn't immediately close once it
-  puts out the last line of the program.
-=end
+#This "ending = gets" is so that the program doesn't immediately close once it
+#puts out the last line of the program.
 ending = gets
